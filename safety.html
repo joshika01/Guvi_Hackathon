@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOS App</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe6f2;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        /* Container Styles */
+        .container d flex flex-row justify-content-center{
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* Buttons and Inputs */
+        button, input {
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border: 2px solid #ff66b2;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button {
+            background-color: #ff66b2;
+            color: white;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #ff3385;
+        }
+
+        .hidden { display: none; }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #ffd9e6;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #ff66b2;
+            width: 0;
+        }
+
+        .navbar {
+            background-color: #ff4c8b;
+            padding: 10px;
+            display: flex;
+            justify-content: flex-end;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .navbar button {
+            background-color: white;
+            color: #ff4c8b;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .navbar button:hover {
+            background-color: #ff99b8;
+            color: white;
+        }
+
+        /* SOS Button */
+        .sos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .sos-button {
+            width: 200px;
+            height: 200px;
+            background-color: #ff4c8b;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .sos-button:hover {
+            background-color: #ff99b8;
+            transform: scale(1.1);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Menu Overlay */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 80%;
+            text-align: center;
+        }
+
+        .menu-options button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #ff4c8b;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .menu-options button:hover {
+            background-color: #ff99b8;
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        h2 {
+            color: #ff4c8b;
+        }
+
+        input, textarea {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            width: 80%;
+            max-width: 400px;
+            border: 1px solid #ff4c8b;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #ff4c8b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #ff99b8;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Step 1 to Step 3 for Permissions (Previous Flow) -->
+<div class="container">
+    <div id="welcomePage" class="welcome">
+        <h2>" A strong woman is not afraid to ask for help—she knows her safety comes first  "</h2>
+        <button onclick="showLogin()">Login</button>
+    </div>
+
+    <div id="permission1" class="hidden">
+        <div class="progress-bar"><div class="progress-fill" style="width: 33%;"></div></div>
+        <h2>Step 1 of 3</h2>
+        <p><b>Allow SOS to send SMS to nearby police station?</b><br>This helps notify authorities in emergencies.</p>
+        <div class="permission-box">
+            <label><input type="radio" name="policeSms" value="agree"> Agree</label>
+            <label><input type="radio" name="policeSms" value="disagree"> Don't Agree</label>
+            <label><input type="radio" name="policeSms" value="whileUsing"> Agree while using the app</label>
+        </div>
+        <button onclick="showPermission2()">Next</button>
+    </div>
+
+    <div id="permission2" class="hidden">
+        <div class="progress-bar"><div class="progress-fill" style="width: 66%;"></div></div>
+        <h2>Step 2 of 3</h2>
+        <p><b>Allow SOS to send SMS and Call to specified contacts?</b><br>This ensures your trusted contacts are alerted.</p>
+        <div class="permission-box">
+            <label><input type="radio" name="contactCall" value="agree"> Agree</label>
+            <label><input type="radio" name="contactCall" value="disagree"> Don't Agree</label>
+            <label><input type="radio" name="contactCall" value="whileUsing"> Agree while using the app</label>
+        </div>
+        <button onclick="showPermission3()">Next</button>
+    </div>
+
+    <div id="permission3" class="hidden">
+        <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+        <h2>Step 3 of 3</h2>
+        <p><b>Allow SOS to access live location?</b><br>Location sharing ensures help reaches you quickly.</p>
+        <div class="permission-box">
+            <label><input type="radio" name="liveLocation" value="agree"> Agree</label>
+            <label><input type="radio" name="liveLocation" value="disagree"> Don't Agree</label>
+            <label><input type="radio" name="liveLocation" value="whileUsing"> Agree while using the app</label>
+        </div>
+        <button onclick="showAddContact()">Confirm</button>
+    </div>
+
+    <!-- Add Contact Page -->
+    <div id="addContactPage" class="hidden">
+        <h2>Add Emergency Contact</h2>
+        <input type="text" id="contactName" placeholder="Enter Contact Name" required>
+        <input type="tel" id="contactNumber" placeholder="Enter Mobile Number" pattern="^\d{10}$" required>
+        <button onclick="saveContact()">Submit</button>
+    </div>
+</div>
+
+<!-- SOS App (Main App Interface) -->
+<div id="app" class="hidden">
+    <div class="navbar">
+        <button onclick="openMenu()">Menu</button>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div id="menuOverlay" class="menu-overlay">
+        <div class="menu-container">
+            <h2>Menu</h2>
+            <div class="menu-options">
+                <button onclick="navigate('addContact')">Add Contact</button>
+                <button onclick="navigate('viewContacts')">View Contacts</button>
+                <button onclick="navigate('editMessage')">Edit SOS Message</button>
+                <button onclick="navigate('settings')">Settings</button>
+            </div>
+            <button onclick="closeMenu()">Close</button>
+        </div>
+    </div>
+
+    <!-- SOS Button -->
+    <div class="sos-container">
+        <button class="sos-button">SOS</button>
+    </div>
+
+    <!-- Sections -->
+    <div id="addContact" class="section">
+        <h2>Add Emergency Contact</h2>
+        <input type="text" id="contactName" placeholder="Enter Name">
+        <input type="text" id="contactNumber" placeholder="Enter Phone Number">
+        <button>Save Contact</button>
+    </div>
+
+    <div id="viewContacts" class="section">
+        <h2>Saved Contacts</h2>
+        <div id="contactsList"><p>No contacts added yet.</p></div>
+    </div>
+
+    <div id="editMessage" class="section">
+        <h2>Edit SOS Message</h2>
+        <textarea id="sosMessage">🚨 Emergency Alert! Help Needed!</textarea>
+        <button>Save Message</button>
+    </div>
+
+    <div id="settings" class="section">
+        <h2>Settings</h2>
+        <div><span>Allow SMS</span> <input type="checkbox" id="allowSMS"></div>
+        <div><span>Allow Call</span> <input type="checkbox" id="allowCall"></div>
+        <div><span>Allow Location</span> <input type="checkbox" id="allowLocation"></div>
+        <button onclick="saveSettings()">Save Settings</button>
+    </div>
+</div>
+
+<script>
+// First flow (permission and contact addition)
+function showLogin() {
+    document.getElementById("welcomePage").classList.add("hidden");
+    document.getElementById("permission1").classList.remove("hidden");
+}
+
+function showPermission2() {
+    if (validateSelection("policeSms")) {
+        document.getElementById("permission1").classList.add("hidden");
+        document.getElementById("permission2").classList.remove("hidden");
+    }
+}
+
+function showPermission3() {
+    if (validateSelection("contactCall")) {
+        document.getElementById("permission2").classList.add("hidden");
+        document.getElementById("permission3").classList.remove("hidden");
+    }
+}
+
+function showAddContact() {
+    if (validateSelection("liveLocation")) {
+        document.getElementById("permission3").classList.add("hidden");
+        document.getElementById("addContactPage").classList.remove("hidden");
+    }
+}
+
+function validateSelection(name) {
+    const selected = document.querySelector(`input[name="${name}"]:checked`);
+    if (!selected) {
+        alert("Please select an option before proceeding.");
+        return false;
+    }
+    return true;
+}
+
+function saveContact() {
+    const name = document.getElementById("contactName").value.trim();
+    const number = document.getElementById("contactNumber").value.trim();
+    const phonePattern = /^[0-9]{10}$/;
+
+    if (!name || !number) {
+        alert("Please fill in all fields.");
+    } else if (!phonePattern.test(number)) {
+        alert("Please enter a valid 10-digit phone number.");
+    } else {
+        alert(`Contact Saved: ${name}, ${number}`);
+        transitionToApp(); // Transition to the SOS app interface after saving the contact
+    }
+}
+
+// Transition to the SOS App interface
+function transitionToApp() {
+    document.getElementById("addContactPage").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+}
+
+// Second flow (Main SOS App Interface)
+function openMenu() {
+    document.getElementById("menuOverlay").style.display = "flex";
+}
+
+function closeMenu() {
+    document.getElementById("menuOverlay").style.display = "none";
+}
+
+function navigate(sectionId) {
+    closeMenu();
+    showSection(sectionId);
+}
+
+function showSection(sectionId) {
+    document.querySelectorAll(".section").forEach(section => section.style.display = "none");
+    document.getElementById(sectionId).style.display = "block";
+}
+</script>
+
+</body>
+</html>
