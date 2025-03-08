@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOS Emergency App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe6f2;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: #ff4c8b;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .navbar button {
+            background-color: white;
+            color: #ff4c8b;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .navbar button:hover {
+            background-color: #ff99b8;
+            color: white;
+        }
+
+        /* Menu */
+        .menu-container {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background-color: #ff4c8b;
+            padding: 20px;
+            border-radius: 10px;
+            width: 250px;
+        }
+
+        .menu-container a {
+            display: block;
+            padding: 10px;
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            background-color: #ff4c8b;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .menu-container a:hover {
+            background-color: #ff99b8;
+        }
+
+        .menu-container button {
+            padding: 10px;
+            background-color: #ff4c8b;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .menu-container button:hover {
+            background-color: #ff99b8;
+        }
+
+        /* SOS Button */
+        .sos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .sos-button {
+            width: 150px;
+            height: 150px;
+            background-color: #ff4c8b;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .sos-button:hover {
+            background-color: #ff99b8;
+            transform: scale(1.05);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        h2 {
+            color: #ff4c8b;
+        }
+
+        input, textarea {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            width: 80%;
+            max-width: 400px;
+            border: 1px solid #ff4c8b;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #ff4c8b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #ff99b8;
+        }
+
+        /* Custom Alert */
+        .custom-alert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: #ff4c8b;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 80%;
+            max-width: 400px;
+            z-index: 1000;
+        }
+
+        .custom-alert button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ff4c8b;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* About Us Section */
+        .about-us {
+            font-size: 16px;
+            color: #ff4c8b;
+            font-weight: bold;
+            text-align: justify;
+            padding: 15px;
+        }
+
+        /* Login Page */
+        .login-page {
+            display: none;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .login-page input {
+            width: 300px;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #ff4c8b;
+        }
+
+        .login-page button {
+            width: 320px;
+            padding: 12px;
+            background-color: #ff4c8b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .login-page button:hover {
+            background-color: #ff99b8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <button onclick="toggleMenu()">Menu</button>
+    </div>
+
+    <!-- Menu Dropdown -->
+    <div id="menu" class="menu-container">
+        <a href="#addContact" onclick="showSection('addContact')">Add Contact</a>
+        <a href="#viewContacts" onclick="showSection('viewContacts')">View Contacts</a>
+        <a href="#editMessage" onclick="showSection('editMessage')">Edit SOS Message</a>
+        <a href="#settings" onclick="showSection('settings')">Settings</a>
+        <a href="#aboutUs" onclick="showSection('aboutUs')">About Us</a>
+        <button onclick="toggleMenu()">Close Menu</button>
+    </div>
+
+    <!-- SOS Button -->
+    <div class="sos-container">
+        <button class="sos-button">SOS</button>
+    </div>
+
+    <!-- Main Content Sections -->
+    <div id="mainContent">
+        <!-- Add Contact Section -->
+        <div id="addContact" class="section">
+            <h2>Add Emergency Contact</h2>
+            <input type="text" id="contactName" placeholder="Enter Name">
+            <input type="text" id="contactNumber" placeholder="Enter Phone Number">
+            <button>Save Contact</button>
+        </div>
+
+        <!-- View Contacts Section -->
+        <div id="viewContacts" class="section">
+            <h2>Saved Contacts</h2>
+            <div id="contactsList">
+                <p>No contacts added yet.</p>
+            </div>
+        </div>
+
+        <!-- Edit SOS Message Section -->
+        <div id="editMessage" class="section">
+            <h2>Edit SOS Message</h2>
+            <textarea id="sosMessage">🚨 Emergency Alert! Help Needed!</textarea>
+            <button>Save Message</button>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settings" class="section">
+            <h2>Settings</h2>
+            <div class="settings-option">
+                <span>Allow SMS</span>
+                <input type="checkbox" id="allowSMS">
+            </div>
+            <div class="settings-option">
+                <span>Call Neighbor</span>
+                <input type="checkbox" id="allowCall">
+            </div>
+            <div class="settings-option">
+                <span>Allow Location</span>
+                <input type="checkbox" id="allowLocation">
+            </div>
+            <button onclick="saveSettings()">Save Settings</button>
+        </div>
+
+        <!-- About Us Section -->
+        <div id="aboutUs" class="section about-us">
+            <h2>About Us</h2>
+            <p>We are dedicated to providing a fast and reliable way for women to alert their trusted contacts and authorities during an emergency. Our app aims to enhance safety and provide quick help when needed.</p>
+        </div>
+
+        <!-- Custom Alert Box -->
+        <div id="customAlert" class="custom-alert">
+            <p>✅ Settings Saved Successfully!</p>
+            <button onclick="closeAlert()">OK</button>
+        </div>
+
+        <!-- Login Page Section -->
+        <div id="loginPage" class="login-page">
+            <h2>Login to Your Account</h2>
+            <input type="text" id="username" placeholder="Enter Username" required>
+            <input type="password" id="password" placeholder="Enter Password" required>
+            <button onclick="login()">Login</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById("menu");
+            menu.style.display = menu.style.display === "none" || menu.style.display === "" ? "block" : "none";
+        }
+
+        function showSection(sectionId) {
+            let sections = document.querySelectorAll(".section");
+            sections.forEach(section => section.style.display = "none");
+            document.getElementById(sectionId).style.display = "block";
+            toggleMenu(); // Close menu after navigating
+        }
+
+        function saveSettings() {
+            let allowSMS = document.getElementById("allowSMS").checked;
+            let allowCall = document.getElementById("allowCall").checked;
+            let allowLocation = document.getElementById("allowLocation").checked;
+
+            localStorage.setItem("allowSMS", allowSMS);
+            localStorage.setItem("allowCall", allowCall);
+            localStorage.setItem("allowLocation", allowLocation);
+
+            document.getElementById("customAlert").style.display = "block";
+        }
+
+        function closeAlert() {
+            document.getElementById("customAlert").style.display = "none";
+        }
+
+        function login() {
+            // Placeholder for actual login functionality
+            alert("Login functionality will be added here.");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".section").forEach(section => section.style.display = "none");
+            document.getElementById("allowSMS").checked = localStorage.getItem("allowSMS") === "true";
+            document.getElementById("allowCall").checked = localStorage.getItem("allowCall") === "true";
+            document.getElementById("allowLocation").checked = localStorage.getItem("allowLocation") === "true";
+        });
+    </script>
+
+</body>
+</html>
